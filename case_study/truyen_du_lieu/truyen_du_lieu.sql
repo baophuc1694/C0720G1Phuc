@@ -79,7 +79,8 @@ values
 (2, 'Messi', '1996-08-11', '201000001', '0935000001', 'Si@gmail.com', 'Sài Gòn', 2 ),
 (3, 'David Villa', '1992-07-10', '201000002', '0935000002', 'Vid@gmail.com', 'Quảng Ngãi', 3 ),
 (4, 'Torres', '1991-01-0', '201000003', '0935000003', 'Res@gmail.com', 'Quảng Trị', 4 ),
-(5, 'Ramos', '1990-02-20', '201000004', '0935000005', 'Mos@gmail.com', 'Hà Nội', 5 );
+(5, 'Ramos', '1990-02-20', '201000004', '0935000005', 'Mos@gmail.com', 'Hà Nội', 5 ),
+(6, 'Pique', '1990-05-30', '201000004', '0935000005', 'Mos@gmail.com', 'Vinh', 1 );
 
 insert into hop_dong(id_hop_dong, ngay_lam_hop_dong, ngay_ket_thuc, tien_dat_coc, tong_tien, id_nhan_vien, id_khach_hang, id_dich_vu)
 values 

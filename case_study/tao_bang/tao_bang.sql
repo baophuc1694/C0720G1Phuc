@@ -2,7 +2,7 @@ drop database if exists case_study_1;
 create database case_study_1;
 use case_study_1;
 
-create table vitri(
+create table vi_tri(
 id_vi_tri int primary key,
 ten_vi_tri varchar(45)
 );
@@ -24,7 +24,8 @@ ten_loai_khach varchar(45)
 
 create table kieu_thue(
 id_kieu_thue int primary key,
-ten_kieu_thue varchar(45)
+ten_kieu_thue varchar(45),
+gia double
 );
 
 create table loai_dich_vu(
@@ -36,7 +37,7 @@ create table dich_vu_di_kem(
 id_dich_vu_di_kem int primary key,
 ten_dich_vu_di_kem varchar(45),
 gia int,
-don_vi int,
+don_vi varchar(45),
 trang_thai_kha_dung varchar(45)
 );
 
@@ -46,7 +47,7 @@ ho_ten varchar(45),
 ngay_sinh date,
 so_cmnd varchar(45),
 sdt varchar(45),
-emai varchar(45),
+email varchar(45),
 dia_chi varchar(45),
 id_loai_khach int,
 foreign key (id_loai_khach) references loai_khach(id_loai_khach)
