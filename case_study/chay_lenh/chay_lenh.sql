@@ -129,3 +129,81 @@ and dv.ten_dich_vu not in (
 	where hd.ngay_lam_hop_dong > '2018-12-31' and hd.ngay_lam_hop_dong < '2019-07-01' and dv.ten_dich_vu is not null
 )
 group by hd.id_hop_dong;
+
+-- Task 13:
+create view thong_tin as
+select dvdk.id_dich_vu_di_kem, dvdk.ten_dich_vu_di_kem, dvdk.gia, dvdk.don_vi, dvdk.trang_thai_kha_dung, count(hdct.id_dich_vu_di_kem) as 'so_lan_su_dung'
+from dich_vu_di_kem dvdk
+	left join hop_dong_chi_tiet hdct using(id_dich_vu_di_kem)
+group by dvdk.id_dich_vu_di_kem;
+
+select *
+from thong_tin
+where so_lan_su_dung in (
+	select max(so_lan_su_dung)
+    from thong_tin
+    where so_lan_su_dung is not null
+);
+-- Hết Task 13...
+
+
+-- Task 14:
+select hd.id_hop_dong, ldv.ten_loai_dich_vu, dvdk.ten_dich_vu_di_kem, count(hdct.id_dich_vu_di_kem) as 'so_lan_su_dung'
+from hop_dong hd
+	join hop_dong_chi_tiet hdct using(id_hop_dong)
+    join dich_vu_di_kem dvdk using(id_dich_vu_di_kem)
+    join dich_vu dv using(id_dich_vu)
+    join loai_dich_vu ldv using(id_loai_dich_vu)
+group by dvdk.id_dich_vu_di_kem
+having count(hdct.id_dich_vu_di_kem) = 1;
+
+-- Hết Task 14....
+
+-- Task 15:
+select nv.id_nhan_vien, nv.ho_ten, td.trinh_do, bp.ten_bo_phan, nv.sdt, nv.dia_chi, count(hd.id_nhan_vien) as so_luong_hop_dong
+from nhan_vien nv
+	left join hop_dong hd using(id_nhan_vien)
+    left join trinh_do td using(id_trinh_do)
+    left join bo_phan bp using(id_bo_phan)
+where nv.id_nhan_vien not in (
+	select nv.id_nhan_vien
+    from nhan_vien nv
+		left join hop_dong hd using(id_nhan_vien)
+    where year(hd.ngay_lam_hop_dong) = 2018 and hd.id_nhan_vien is not null
+    group by hd.id_nhan_vien
+    having count(hd.id_nhan_vien) > 3
+)
+group by nv.id_nhan_vien
+order by nv.id_nhan_vien;
+ 
+ -- Hết Task 15...
+ 
+ -- Task 16: 
+ delete from nhan_vien
+where nhan_vien.id_nhan_vien not in (
+	select danh_sach.id_nhan_vien
+    from (
+		select nv.id_nhan_vien
+        from nhan_vien nv
+			left join hop_dong hd using(id_nhan_vien)
+		where year(hd.ngay_lam_hop_dong) in ('2020')
+        group by nv.id_nhan_vien
+    ) as danh_sach
+);
+
+
+ update loai_khach
+ set ten_loai_khach='Diamond'
+ where ten_loai_khach='Platinium' and id_loai_khach in (
+ select Tongtienthanhtoan_loai_khach.id_loai_khach
+ from (
+ select lk.id_loai_khach, sum(hd.tong_tien*23000) as tongtienthanhtoan
+ from loai_khach lk
+ inner join khach_hang kh on kh.id_loai_khach=lk.id_loai_khach
+ inner join hop_dong hd on hd.id_khach_hang = kh.id_khach_hang
+ where year(hd.ngay_lam_hop_dong)='2019'
+ group by lk.id_loai_khach
+ ) as Tongtienthanhtoan_loai_khach
+ where Tongtienthanhtoan_loai_khach.tongtienthanhtoan>10000000
+ );
+  select * from ten_loai_khach;
